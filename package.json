@@ -9,10 +9,14 @@
   },
   "dependencies": {
     "@mdi/font": "7.4.47",
+    "@studiometa/vue-mapbox-gl": "^2.5.0",
     "core-js": "^3.37.1",
+    "mapbox-gl": "^3.7.0",
     "roboto-fontface": "*",
+    "sortablejs": "^1.12.0",
     "vue": "^3.4.31",
-    "vuetify": "^3.6.11"
+    "vuetify": "^3.6.11",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",

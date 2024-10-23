@@ -1,7 +1,7 @@
 <template>
-  <HelloWorld />
+  <MapComponent />
 </template>
 
-<script setup>
-  //
+<script>
+
 </script>

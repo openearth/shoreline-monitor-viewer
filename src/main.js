@@ -10,6 +10,8 @@ import { registerPlugins } from '@/plugins'
 // Components
 import App from './App.vue'
 
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 // Composables
 import { createApp } from 'vue'
 
