@@ -51,10 +51,10 @@ export default {
     ]
   }),
   methods: {
-    ...mapMutations(['map/setWmsLayers']),
+    ...mapMutations("map", ["setWmsLayers"]),
 
     onActiveLayerChange(event) {
-      this['map/setWmsLayers'](event)
+      this.setWmsLayers(event)
     },
 
     onLayerSortingChange(sortedLayers) {
