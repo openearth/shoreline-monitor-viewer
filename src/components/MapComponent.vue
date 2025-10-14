@@ -25,9 +25,9 @@ function onFeatureClick(features) {
     <mapbox-map
       v-model:map="mapInstance"
       :access-token="accessToken"
-      :center="[5.1, 52.07]"
+      :center="[2.5, 52.0]"
       map-style="mapbox://styles/mapbox/light-v11"
-      :zoom="10.5"
+      :zoom="5.5"
       @mb-created="onMapCreated"
     >
       <WMTSLayer

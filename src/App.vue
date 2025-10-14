@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary">
-      <v-toolbar-title>a27</v-toolbar-title>
+      <v-toolbar-title>Shoreline Monitor Application</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
