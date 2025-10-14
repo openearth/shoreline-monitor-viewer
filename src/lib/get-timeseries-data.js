@@ -1,20 +1,26 @@
 import sendWpsRequest from '@/lib/wps'
 
-export default async function getTimeseriesData (peilfilterId, startDate = '', endDate = '') {
-  if (!peilfilterId) {
-    throw new Error('No peilfilterId provided to getTimeseriesData')
+export default async function getTimeseriesData (profileid) {
+  if (!profileid) {
+    throw new Error('No profileid provided to getTimeseriesData')
   }
-  const peilfilterinfo = {
-    peilfilterid: peilfilterId,
-    start_date: startDate,
-    end_date: endDate,
-  }
+
   try {
     const response = await sendWpsRequest({
-      identifier: 'wps_get_peilfilter_data',
-      inputs: [{ id: 'peilfilterinfo', title: 'Peilfilterinfo as peilfilterId, StartDate and EndDate',
-        type: 'ComplexData', mimeType: 'application/json', value: peilfilterinfo }],
-      outputIdentifier: 'peilfilter_data',
+      baseUrl: import.meta.env.VITE_WPS_URL,
+      identifier: 'wps_shoreline_getprofile',
+      inputs: [
+        {
+          id: 'profileid',
+          title: 'Shoreline information',
+          type: 'ComplexData',
+          mimeType: 'application/json',
+          value: {
+            profileid,
+          },
+        },
+      ],
+      outputIdentifier: 'profileinformation',
       mimeType: 'application/json',
     })
 
@@ -24,7 +30,7 @@ export default async function getTimeseriesData (peilfilterId, startDate = '', e
 
     return response
   } catch (error) {
-    console.error('Failed to fetch locations:', error)
+    console.error('Failed to fetch shoreline data:', error)
     throw error
   }
 }

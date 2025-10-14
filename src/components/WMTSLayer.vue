@@ -1,4 +1,5 @@
-<template></template>
+<template>
+</template>
 
 <script setup>
 import { watch, onUnmounted } from "vue";
@@ -17,13 +18,27 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
+  layerType: {
+    type: String,
+    default: "fill",
+    validator: (value) => ["fill", "line", "circle", "symbol"].includes(value),
+  },
+  sourceLayer: {
+    type: String,
+    default: null,
+  },
+  onFeatureClick: {
+    type: Function,
+    default: () => {},
+  },
+  baseUrl: String
 });
 
-const baseUrl = "https://nl2120.openearth.nl/geoserver/gwc/service/wmts";
 
-// Convert WMTS to XYZ tile format for Mapbox GL JS
+
+// Convert WMTS to XYZ tile format for Mapbox GL JS (Vector Tiles)
 function getWMTSTileUrl(layerName) {
-  return `${baseUrl}?service=WMTS&request=GetTile&version=1.0.0&layer=${layerName}&style=&tilematrixset=EPSG:900913&tilematrix=EPSG:900913:{z}&tilerow={y}&tilecol={x}&format=image/png`;
+  return `${props.baseUrl}?service=WMTS&request=GetTile&version=1.0.0&layer=${layerName}&style=&tilematrixset=EPSG:900913&tilematrix=EPSG:900913:{z}&tilerow={y}&tilecol={x}&format=application/vnd.mapbox-vector-tile`;
 }
 
 const sourceId = `wmts-${props.layerName.replace(":", "-")}`;
@@ -35,7 +50,6 @@ watch(
   (map) => {
     if (!map || !map.isStyleLoaded()) return;
 
-    // Remove existing layer and source if they exist
     if (map.getLayer(layerId)) {
       map.removeLayer(layerId);
     }
@@ -43,27 +57,68 @@ watch(
       map.removeSource(sourceId);
     }
 
-    // Add new WMTS source
     map.addSource(sourceId, {
-      type: "raster",
+      type: "vector",
       tiles: [getWMTSTileUrl(props.layerName)],
-      tileSize: 256,
+      minZoom: 0,
+      maxZoom: 22,
     });
 
-    // Add raster layer
-    map.addLayer({
+    // Add vector layer
+    const layerConfig = {
       id: layerId,
-      type: "raster",
+      type: props.layerType,
       source: sourceId,
-      paint: {
-        "raster-opacity": props.opacity,
-      },
+      "source-layer": sourceId,
       layout: {
         visibility: props.visible ? "visible" : "none",
       },
+    };
+
+    // Add source-layer if specified
+    if (props.sourceLayer) {
+      layerConfig["source-layer"] = props.sourceLayer;
+    }
+
+    // Configure paint properties based on layer type
+    if (props.layerType === "fill") {
+      layerConfig.paint = {
+        "fill-opacity": props.opacity,
+        "fill-color": "#007cbf",
+      };
+    } else if (props.layerType === "line") {
+      layerConfig.paint = {
+        "line-opacity": props.opacity,
+        "line-color": "#007cbf",
+        "line-width": 3,
+      };
+    } else if (props.layerType === "circle") {
+      layerConfig.paint = {
+        "circle-opacity": props.opacity,
+        "circle-color": "#007cbf",
+        "circle-radius": 5,
+      };
+    }
+
+    map.addLayer(layerConfig);
+
+    map.on("click", layerId, async (e) => {
+      if (e.features && e.features.length > 0) {
+        props.onFeatureClick(e.features);
+      }
     });
 
-    console.log(`🗺️ WMTS layer added: ${props.layerName}`);
+    map.on("mouseenter", layerId, () => {
+      map.getCanvas().style.cursor = "pointer";
+    });
+
+    map.on("mouseleave", layerId, () => {
+      map.getCanvas().style.cursor = "";
+    });
+
+    console.log(
+      `🗺️ WMTS vector layer added: ${props.layerName} (${props.layerType})`
+    );
   },
   { immediate: true }
 );
@@ -88,7 +143,14 @@ watch(
   (opacity) => {
     if (!props.map || !props.map.getLayer(layerId)) return;
 
-    props.map.setPaintProperty(layerId, "raster-opacity", opacity);
+    // Set appropriate opacity property based on layer type
+    if (props.layerType === "fill") {
+      props.map.setPaintProperty(layerId, "fill-opacity", opacity);
+    } else if (props.layerType === "line") {
+      props.map.setPaintProperty(layerId, "line-opacity", opacity);
+    } else if (props.layerType === "circle") {
+      props.map.setPaintProperty(layerId, "circle-opacity", opacity);
+    }
   }
 );
 

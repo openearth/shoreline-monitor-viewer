@@ -20,6 +20,7 @@ import { buildWpsExecuteXml } from './template'
  */
 
 export default function sendWpsRequest ({
+  baseUrl,
   identifier,
   inputs = [],
   outputIdentifier = 'output_json',
@@ -31,12 +32,18 @@ export default function sendWpsRequest ({
     outputIdentifier,
     mimeType,
   })
-  const template = buildWpsExecuteXml({ identifier, inputs, outputIdentifier, mimeType })
+  const template = buildWpsExecuteXml({
+    identifier,
+    inputs,
+    outputIdentifier,
+    mimeType,
+  })
 
   return axios({
     method: 'post',
-    url: import.meta.env.VITE_APP_BASE_URL + '/wps',
+    url: baseUrl,
     data: template,
+
     headers: {
       'Content-Type': 'application/xml',
       'Accept': 'application/json',

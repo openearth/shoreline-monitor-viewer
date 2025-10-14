@@ -2,19 +2,21 @@
 import { MapboxMap } from "@studiometa/vue-mapbox-gl";
 import { ref } from "vue";
 import WMTSLayer from "@/components/WMTSLayer.vue";
-import { useLocationsStore } from "@/stores/locations";
 
 const accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
-const locationsStore = useLocationsStore();
 const mapInstance = ref(null);
+const showDialogFeature = ref(null);
+const showDialog = ref(false);
+
+const baseUrl = import.meta.env.VITE_WMTS_URL;
 
 function onMapCreated(map) {
-  console.log("📍 Map instance created", map);
   mapInstance.value = map;
-  // Fetch locations after creation
-  locationsStore.fetchLocations().then(() => {
-    console.log("✅ Fetched locations", locationsStore.locations.length);
-  });
+}
+
+function onFeatureClick(features) {
+  showDialogFeature.value = features[0];
+  showDialog.value = true;
 }
 </script>
 
@@ -30,9 +32,18 @@ function onMapCreated(map) {
     >
       <WMTSLayer
         :map="mapInstance"
-        layer-name="shorelinemonitor:gctr"
+        layer-name="shoreline-monitor:gctr"
         :visible="true"
         :opacity="0.8"
+        layer-type="line"
+        source-layer="gctr"
+        :base-url="baseUrl"
+        @feature-click="onFeatureClick"
+      />
+
+      <FeaturePropertiesDialog
+        v-model="showDialog"
+        :feature="showDialogFeature"
       />
     </mapbox-map>
   </div>
