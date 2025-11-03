@@ -6,10 +6,10 @@
       @click="toggleDropdown"
     >
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
         height="24"
         viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path d="M0 0h24v24H0z" fill="none" />
         <path
@@ -18,7 +18,7 @@
       </svg>
     </button>
 
-    <div 
+    <div
       v-if="showDropdown"
       class="basemap-dropdown mapboxgl-style-list"
     >
@@ -36,27 +36,27 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, onUnmounted } from 'vue'
-  
+  import { onMounted, onUnmounted, ref } from 'vue'
+
   const props = defineProps({
     styles: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   })
-  
+
   const activeStyle = defineModel('activeStyle', {
     type: String,
-    required: true
+    required: true,
   })
-  
+
   const showDropdown = ref(false)
-  
-  function toggleDropdown() {
+
+  function toggleDropdown () {
     showDropdown.value = !showDropdown.value
   }
-  
-  function selectStyle(style) {
+
+  function selectStyle (style) {
     if (activeStyle.value === style.title) {
       showDropdown.value = false
       return
@@ -64,22 +64,22 @@
     // Switch to new basemap style
     activeStyle.value = style.title
     showDropdown.value = false
-    
+
     // Note: LocationsLayer component automatically re-adds its layers
     // when it detects the new style has loaded via its reactive watch
   }
-  
-  function handleClickOutside(event) {
+
+  function handleClickOutside (event) {
     const controlElement = document.querySelector('.basemap-control')
     if (controlElement && !controlElement.contains(event.target)) {
       showDropdown.value = false
     }
   }
-  
+
   onMounted(() => {
     document.addEventListener('click', handleClickOutside)
   })
-  
+
   onUnmounted(() => {
     document.removeEventListener('click', handleClickOutside)
   })
