@@ -1,9 +1,9 @@
-export const buildWpsExecuteXml = ({
+export function buildWpsExecuteXml ({
   identifier,
   inputs = [],
   outputIdentifier = 'output_json',
   mimeType = 'application/json',
-}) => {
+}) {
   const inputXml = inputs.map(input => {
     const { id, title = id, type = 'LiteralData', value, mimeType: inputMimeType } = input
 

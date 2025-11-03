@@ -8,7 +8,7 @@
       :zoom="1"
       @mb-created="onMapCreated"
     >
-      <MapLayer v-for="layer in mapboxLayers" :key="layer.id" :layer="layer" />
+      <MapLayer v-for="layer in mapboxLayers" :key="layer.id" :layer="layer" @click="onFeatureClick" />
 
       <FeaturePropertiesDialog
         v-model="showDialog"
@@ -36,11 +36,11 @@
   function onMapCreated (map) {
     mapInstance.value = map
   }
-// was the previous click event of the layer
-/*   function onFeatureClick (features) {
-    showDialogFeature.value = features[0]
+  // was the previous click event of the layer
+  function onFeatureClick (features) {
+    showDialogFeature.value = features
     showDialog.value = true
-  } */
+  }
 
 </script>
 

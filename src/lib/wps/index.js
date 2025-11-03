@@ -26,12 +26,6 @@ export default function sendWpsRequest ({
   outputIdentifier = 'output_json',
   mimeType = 'application/json',
 }) {
-  console.log('Sending WPS request:', {
-    identifier,
-    inputs,
-    outputIdentifier,
-    mimeType,
-  })
   const template = buildWpsExecuteXml({
     identifier,
     inputs,
