@@ -10,8 +10,9 @@ function buildWmtsLayer ({
   paint = {},
   mapServiceVersion = '1.0.0',
   bbox = [],
-  isVectorTiles = false,
   format,
+  vectorType,
+  minZoom,
 }) {
   const url = new URL(rawUrl)
   const tile = buildGeoserverUrl({
@@ -21,9 +22,7 @@ function buildWmtsLayer ({
     layer,
     style,
     version: mapServiceVersion,
-    format: isVectorTiles || format === 'application/vnd.mapbox-vector-tile'
-      ? 'application/vnd.mapbox-vector-tile'
-      : 'image/png',
+    format,
     tilematrixset: 'EPSG:900913',
     tilematrix: 'EPSG:900913:{z}',
     tilerow: '{y}',
@@ -32,22 +31,19 @@ function buildWmtsLayer ({
     transparent: true,
   })
 
-  console.log('layer', layer)
-  return isVectorTiles || format === 'application/vnd.mapbox-vector-tile'
+  return format === 'application/vnd.mapbox-vector-tile'
     ? {
         'id': layer.split(':')[1],
         layer,
-        'type': 'line',
+        'type': vectorType,
         'source': {
           type: 'vector',
           tiles: [tile],
-          // bounds: bbox,
+          ...(bbox && Array.isArray(bbox) && bbox.length > 0 && { bounds: bbox }),
         },
         'source-layer': layer.split(':')[1],
-        'paint': {
-          'fill-color': '#0080ff',
-          'fill-opacity': 1,
-        },
+        paint,
+        // ...(minZoom && { minzoom: minZoom }),
       }
     : {
         id,
@@ -57,9 +53,9 @@ function buildWmtsLayer ({
           type: 'raster',
           tiles: [tile],
           tileSize: 256,
-          // bounds: bbox,
+          ...(bbox && Array.isArray(bbox) && bbox.length > 0 && { bounds: bbox }),
         },
-        paint,
+        // ...(minZoom && { minzoom: minZoom }),
       }
 }
 

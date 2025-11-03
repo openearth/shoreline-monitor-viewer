@@ -7,7 +7,6 @@ export default function buildMapboxLayer (layerConfig) {
   if (mapServiceType === 'wms') {
     return buildWmsLayer(layerConfig)
   } else if (mapServiceType === 'wmts') {
-    console.log('buildWmtsLayer', buildWmtsLayer(layerConfig))
     return buildWmtsLayer(layerConfig)
   }
 }

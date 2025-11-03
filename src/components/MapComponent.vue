@@ -3,22 +3,12 @@
     <mapbox-map
       v-model:map="mapInstance"
       :access-token="accessToken"
-      :center="[2.5, 52.0]"
+      :center="[0,0]"
       map-style="mapbox://styles/mapbox/light-v11"
-      :zoom="5.5"
+      :zoom="1"
       @mb-created="onMapCreated"
     >
       <MapLayer v-for="layer in mapboxLayers" :key="layer.id" :layer="layer" />
-      <!-- <WMTSLayer
-        :base-url="baseUrl"
-        layer-name="shoreline-monitor:gctr"
-        layer-type="line"
-        :map="mapInstance"
-        :opacity="0.8"
-        source-layer="gctr"
-        :visible="true"
-        @feature-click="onFeatureClick"
-      /> -->
 
       <FeaturePropertiesDialog
         v-model="showDialog"
@@ -46,7 +36,7 @@
   function onMapCreated (map) {
     mapInstance.value = map
   }
-
+// was the previous click event of the layer
 /*   function onFeatureClick (features) {
     showDialogFeature.value = features[0]
     showDialog.value = true
