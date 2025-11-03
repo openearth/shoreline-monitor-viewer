@@ -1,8 +1,9 @@
 <script setup>
-import { MapboxMap, MapboxGeocoder } from "@studiometa/vue-mapbox-gl";
-import { ref } from "vue";
+import { MapboxMap, MapboxGeocoder, MapboxNavigationControl } from "@studiometa/vue-mapbox-gl";
+import { ref, computed } from "vue";
 import WMTSLayer from "@/components/WMTSLayer.vue";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import { MAP_BASELAYERS, MAP_BASELAYER_DEFAULT } from '@/lib/constants'
 
 const accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 const mapInstance = ref(null);
@@ -19,19 +20,25 @@ function onFeatureClick(features) {
   showDialogFeature.value = features[0];
   showDialog.value = true;
 }
+
+const activeStyleTitle = ref(MAP_BASELAYER_DEFAULT.title)
+const activeStyleUri = computed(() => MAP_BASELAYERS.find(style => style.title === activeStyleTitle.value).uri)
 </script>
 
 <template>
   <div class="map-wrapper">
     <mapbox-map
+      :key="activeStyleUri"
       v-model:map="mapInstance"
       :access-token="accessToken"
       :center="[2.5, 52.0]"
-      map-style="mapbox://styles/mapbox/light-v11"
+      :map-style="activeStyleUri"
       :zoom="5.5"
       @mb-created="onMapCreated"
     >
       <MapboxGeocoder />
+
+
       <WMTSLayer
         :map="mapInstance"
         layer-name="shoreline-monitor:gctr"
@@ -47,6 +54,13 @@ function onFeatureClick(features) {
         v-model="showDialog"
         :feature="showDialogFeature"
       />
+
+      <MapboxNavigationControl :show-compass="false" position="bottom-right" />
+
+      <div class="map-controls">
+        <BasemapControl :styles="MAP_BASELAYERS" v-model:active-style="activeStyleTitle" />
+      </div>
+
     </mapbox-map>
   </div>
 </template>
@@ -56,5 +70,13 @@ function onFeatureClick(features) {
 .map-wrapper .mapboxgl-map {
   width: 100%;
   height: 100%;
+  position: relative;
+}
+
+.map-controls {
+  position: absolute;
+  bottom: 90px;  
+  right: 10px;  
+  z-index: 1000;
 }
 </style>
