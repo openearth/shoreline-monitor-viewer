@@ -11,6 +11,7 @@ function buildWmtsLayer ({
   mapServiceVersion = '1.0.0',
   bbox = [],
   isVectorTiles = false,
+  format,
 }) {
   const url = new URL(rawUrl)
   const tile = buildGeoserverUrl({
@@ -20,7 +21,7 @@ function buildWmtsLayer ({
     layer,
     style,
     version: mapServiceVersion,
-    format: isVectorTiles
+    format: isVectorTiles || format === 'application/vnd.mapbox-vector-tile'
       ? 'application/vnd.mapbox-vector-tile'
       : 'image/png',
     tilematrixset: 'EPSG:900913',
@@ -31,11 +32,12 @@ function buildWmtsLayer ({
     transparent: true,
   })
 
-  return isVectorTiles
+  console.log('layer', layer)
+  return isVectorTiles || format === 'application/vnd.mapbox-vector-tile'
     ? {
         'id': layer.split(':')[1],
         layer,
-        'type': 'fill',
+        'type': 'line',
         'source': {
           type: 'vector',
           tiles: [tile],
