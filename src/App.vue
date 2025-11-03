@@ -61,13 +61,20 @@
 </template>
 <script setup>
 
-  import { computed, ref, watch } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
   import TimeSeriesChart from '@/components/TimeSeriesChart.vue'
+
   import { useAppStore } from '@/stores/app'
   import { useLocationsStore } from '@/stores/locations'
+  import { useMapStore } from '@/stores/map'
 
   const appStore = useAppStore()
   const locationsStore = useLocationsStore()
+  const mapStore = useMapStore()
+
+  onMounted(() => {
+    mapStore.initializeMapboxLayers()
+  })
 
   const panelIsCollapsed = computed(() => appStore.panelIsCollapsed)
 

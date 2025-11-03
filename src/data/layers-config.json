@@ -1,0 +1,9 @@
+[
+    {
+        "id": "shoreline-monitor:gctr",
+        "name": "gctr",
+        "layer": "shoreline-monitor:gctr",
+        "url": "https://shoreline-monitor.avi.directory.intra/geoserver/gwc/service/wmts?",
+        "wmtsType": "raster"
+    }
+]

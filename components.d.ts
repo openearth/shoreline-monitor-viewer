@@ -12,6 +12,7 @@ declare module 'vue' {
     LayerControl: typeof import('./src/components/LayerControl.vue')['default']
     LocationsLayer: typeof import('./src/components/LocationsLayer.vue')['default']
     MapComponent: typeof import('./src/components/MapComponent.vue')['default']
+    MapLayer: typeof import('./src/components/MapLayer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TimeSeriesChart: typeof import('./src/components/TimeSeriesChart.vue')['default']
