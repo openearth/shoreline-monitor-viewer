@@ -1,7 +1,18 @@
 <template>
   <v-app>
+    <LegalDialog />
+
     <v-app-bar app color="primary">
       <v-toolbar-title>Shoreline Monitor Application</v-toolbar-title>
+      <v-spacer />
+      <v-btn
+        href="https://shorelinemonitor.earth/"
+        target="_blank"
+        variant="text"
+        prepend-icon="mdi-open-in-new"
+      >
+        Shoreline Monitor Website
+      </v-btn>
     </v-app-bar>
 
     <v-main>

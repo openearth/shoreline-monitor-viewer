@@ -11,6 +11,7 @@ declare module 'vue' {
     BasemapControl: typeof import('./src/components/BasemapControl.vue')['default']
     FeaturePropertiesDialog: typeof import('./src/components/FeaturePropertiesDialog.vue')['default']
     LayerControl: typeof import('./src/components/LayerControl.vue')['default']
+    LegalDialog: typeof import('./src/components/LegalDialog.vue')['default']
     LocationsLayer: typeof import('./src/components/LocationsLayer.vue')['default']
     MapComponent: typeof import('./src/components/MapComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
