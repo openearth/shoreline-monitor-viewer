@@ -8,7 +8,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BasemapControl: typeof import('./src/components/BasemapControl.vue')['default']
     FeaturePropertiesDialog: typeof import('./src/components/FeaturePropertiesDialog.vue')['default']
+    LegalDialog: typeof import('./src/components/LegalDialog.vue')['default']
     MapComponent: typeof import('./src/components/MapComponent.vue')['default']
     MapLayer: typeof import('./src/components/MapLayer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
