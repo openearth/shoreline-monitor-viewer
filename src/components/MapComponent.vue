@@ -1,7 +1,8 @@
 <script setup>
-import { MapboxMap } from "@studiometa/vue-mapbox-gl";
+import { MapboxMap, MapboxGeocoder } from "@studiometa/vue-mapbox-gl";
 import { ref } from "vue";
 import WMTSLayer from "@/components/WMTSLayer.vue";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 const accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 const mapInstance = ref(null);
@@ -30,6 +31,7 @@ function onFeatureClick(features) {
       :zoom="5.5"
       @mb-created="onMapCreated"
     >
+      <MapboxGeocoder />
       <WMTSLayer
         :map="mapInstance"
         layer-name="shoreline-monitor:gctr"
