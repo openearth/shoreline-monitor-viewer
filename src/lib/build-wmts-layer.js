@@ -13,6 +13,7 @@ function buildWmtsLayer ({
   format,
   vectorType,
   minZoom,
+  maxZoom,
 }) {
   const url = new URL(rawUrl)
   const tile = buildGeoserverUrl({
@@ -43,7 +44,8 @@ function buildWmtsLayer ({
         },
         'source-layer': layer.split(':')[1],
         paint,
-        // ...(minZoom && { minzoom: minZoom }),
+        ...(minZoom && { minzoom: minZoom }),
+        ...(maxZoom && { maxzoom: maxZoom }),
       }
     : {
         id,
@@ -55,7 +57,8 @@ function buildWmtsLayer ({
           tileSize: 256,
           ...(bbox && Array.isArray(bbox) && bbox.length > 0 && { bounds: bbox }),
         },
-        // ...(minZoom && { minzoom: minZoom }),
+        ...(minZoom && { minzoom: minZoom }),
+        ...(maxZoom && { maxzoom: maxZoom }),
       }
 }
 
