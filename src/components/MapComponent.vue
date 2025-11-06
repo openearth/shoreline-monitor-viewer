@@ -4,10 +4,10 @@
       :key="activeStyleUri"
       v-model:map="mapInstance"
       :access-token="accessToken"
-      :center="[0,0]"
       :map-style="activeStyleUri"
-      :zoom="1"
       @mb-created="onMapCreated"
+      @mb-moveend="onMoveEnd"
+      @mb-zoomend="onMoveEnd"
     >
       <MapLayer v-for="layer in mapboxLayers" :key="layer.id" :layer="layer" @click="onFeatureClick" />
       <MapboxGeocoder />
@@ -45,6 +45,8 @@
 
   function onMapCreated (map) {
     mapInstance.value = map
+
+    _boundingBox.value && map.fitBounds(_boundingBox.value, { duration: 0 })
   }
 
   function onFeatureClick (features) {
@@ -52,6 +54,11 @@
     showDialog.value = true
   }
 
+  const _boundingBox = ref(null)
+
+  function onMoveEnd (e) {
+    _boundingBox.value = e.target.getBounds()
+  }
 </script>
 
 <style>
