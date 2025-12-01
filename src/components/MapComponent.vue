@@ -10,6 +10,7 @@
       @mb-zoomend="onMoveEnd"
     >
       <MapLayer v-for="layer in mapboxLayers" :key="layer.id" :layer="layer" @click="onFeatureClick" />
+      <MapPaintControl />
       <MapboxGeocoder />
 
       <FeaturePropertiesDialog

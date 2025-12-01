@@ -17,6 +17,5 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Spinner: typeof import('./src/components/Spinner.vue')['default']
     TimeSeriesChart: typeof import('./src/components/TimeSeriesChart.vue')['default']
-    TransectDialog: typeof import('./src/components/TransectDialog.vue')['default']
   }
 }

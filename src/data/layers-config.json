@@ -3,7 +3,7 @@
         "id": "shoreline-monitor:gctr_shifted",
         "name": "gctr_shifted",
         "layer": "shoreline-monitor:gctr_shifted",
-        "url": "https://shoreline-monitor.avi.directory.intra/geoserver/gwc/service/wmts?",
+        "url": "https://shoreline-monitor.openearth.eu/geoserver/gwc/service/wmts?",
         "format": "image/png",
         "minZoom": 5
     },
@@ -11,7 +11,7 @@
         "id": "shoreline-monitor:osm_coastline_1000",
         "name": "osm_coastline_1000",
         "layer": "shoreline-monitor:osm_coastline_1000",
-        "url": "https://shoreline-monitor.avi.directory.intra/geoserver/gwc/service/wmts?",
+        "url": "https://shoreline-monitor.openearth.eu/geoserver/gwc/service/wmts?",
         "format": "image/png",
         "maxZoom": 5
     },
@@ -19,10 +19,11 @@
         "id": "shoreline-monitor:gctr",
         "name": "gctr",
         "layer": "shoreline-monitor:gctr",
-        "url": "https://shoreline-monitor.avi.directory.intra/geoserver/gwc/service/wmts?",
+        "url": "https://shoreline-monitor.openearth.eu/geoserver/gwc/service/wmts?",
         "format": "application/vnd.mapbox-vector-tile",
         "paint": {
             "line-color": "#0080ff",
+            "line-width": 15,
             "line-opacity": 0
         },
         "vectorType": "line",

@@ -1,16 +1,16 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
+  <v-dialog v-model="dialog" max-width="1200px">
     <v-card>
-      <div style="position: relative; height: 400px;">
+      <div style="position: relative; height: 600px; width: 1200px;">
         <iframe
           v-if="timeseriesDataUrl"
           frameborder="0"
-          height="400px"
+          height="500px"
           :src="timeseriesDataUrl"
           width="100%"
           @load="iframeLoaded = true"
         />
-        <div v-if="!iframeLoaded" style="position: absolute; top: 0; left: 0; height: 400px; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; width: 100%;">
+        <div v-if="!iframeLoaded" style="position: absolute; top: 0; left: 0; height: 600px; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; width: 100%;">
           <Spinner />
         </div>
       </div>
@@ -26,9 +26,9 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
-  import getTimeSeries from '@/lib/get-timeseries-data'
+  import { computed, ref, watch } from 'vue'
   import Spinner from '@/components/Spinner.vue'
+  import getTimeSeries from '@/lib/get-timeseries-data'
 
   const props = defineProps({
     modelValue: {
@@ -55,7 +55,6 @@
     iframeLoaded.value = false
     fetchGraph()
   }, { immediate: true })
-
 
   async function fetchGraph () {
     if (!props.feature) return
