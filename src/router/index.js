@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import AdvancedUser from '../views/AdvancedUser.vue'
+import Default from '../views/Default.vue'
 
 const routes = [
-  { path: '/', name: 'Home', component: Home },
+  { path: '/', name: 'Default', component: Default },
+  { path: '/advanced', name: 'AdvancedUser', component: AdvancedUser },
 ]
 
 const router = createRouter({
