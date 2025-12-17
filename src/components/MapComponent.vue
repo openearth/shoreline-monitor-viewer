@@ -60,6 +60,15 @@
   import { useMapStore } from '@/stores/map'
   import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
+  const props = defineProps({
+    enableFeatureDialog: {
+      type: Boolean,
+      default: true,
+    },
+  })
+
+  const emit = defineEmits(['feature-selected'])
+
   const mapStore = useMapStore()
   const mapboxLayers = computed(() => mapStore.mapboxLayers)
 
@@ -79,8 +88,13 @@
   }
 
   function onFeatureClick (features) {
-    showDialogFeature.value = features
-    showDialog.value = true
+    const feature = features
+    emit('feature-selected', feature)
+
+    if (props.enableFeatureDialog) {
+      showDialogFeature.value = feature
+      showDialog.value = true
+    }
   }
 
   const _boundingBox = ref(null)
