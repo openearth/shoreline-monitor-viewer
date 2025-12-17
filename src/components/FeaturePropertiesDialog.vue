@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" max-width="1200px">
     <v-card>
-      <div style="position: relative; height: 600px; width: 1200px;">
+      <div style="position: relative; height: 460px; width: 1200px;">
         <iframe
           v-if="timeseriesDataUrl"
           frameborder="0"
