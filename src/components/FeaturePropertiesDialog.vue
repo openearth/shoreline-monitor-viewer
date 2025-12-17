@@ -1,15 +1,17 @@
 <template>
-  <v-dialog v-model="dialog" max-width="1200px">
+  <v-dialog v-model="dialog" max-width="1650px">
     <v-card>
-      <div style="position: relative; height: 460px; width: 1200px;">
-        <iframe
-          v-if="timeseriesDataUrl"
-          frameborder="0"
-          height="500px"
-          :src="timeseriesDataUrl"
-          width="100%"
-          @load="iframeLoaded = true"
-        />
+      <div class="dialog-scroll" style="position: relative; height: 480px; width: 100%;">
+        <div class="dialog-inner">
+          <iframe
+            v-if="timeseriesDataUrl"
+            frameborder="0"
+            height="500px"
+            :src="timeseriesDataUrl"
+            width="100%"
+            @load="iframeLoaded = true"
+          />
+        </div>
         <div v-if="!iframeLoaded" style="position: absolute; top: 0; left: 0; height: 600px; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; width: 100%;">
           <Spinner />
         </div>
@@ -67,3 +69,14 @@
     dialog.value = false
   }
 </script>
+
+<style scoped>
+.dialog-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.dialog-inner {
+  width: 1650px;
+}
+</style>
