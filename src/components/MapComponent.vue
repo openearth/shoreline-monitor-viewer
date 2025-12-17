@@ -18,7 +18,7 @@
         :feature="showDialogFeature"
       />
 
-      <MapboxNavigationControl position="bottom-right" :show-compass="false" />
+      <MapboxNavigationControl position="bottom-right" />
       <div class="map-controls">
         <BasemapControl v-model:active-style="activeStyleTitle" :styles="MAP_BASELAYERS" />
       </div>
@@ -72,7 +72,7 @@
 
 .map-controls {
   position: absolute;
-  bottom: 90px;
+  bottom: 120px;
   right: 10px;
   z-index: 1000;
 }
