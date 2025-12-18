@@ -22,7 +22,7 @@
       <div class="map-info" :class="{ collapsed: infoCollapsed }">
         <div v-if="!infoCollapsed" class="map-info__panel">
           <div class="map-info__header">
-            <span class="map-info__title">Long-term Shoreline Changes (1984-2016)</span>
+            <span class="map-info__title">Long-term Shoreline Changes (1984-2024)</span>
             <button
               class="map-info__close"
               type="button"
@@ -33,8 +33,9 @@
             </button>
           </div>
           <p class="map-info__body">
-            The bars represent the erosion/accretion along coasts, every 500m, over the period 1984-2016. Green bars indicate where shoreline accretion has occurred (natural accretion, land reclamation, nourishments). Red bars indicate erosive shorelines, based on a linear fit through shoreline positions. If you're zoomed in you can click on a profile to see a time series chart.
+            The bars represent the erosion/accretion along coasts, every 100m, over the period 1984-2024. Green bars indicate where the shoreline has advanced (natural accretion, land reclamation, nourishments). Red bars indicate retreating (eroding) shorelines, based on a linear fit through annual shoreline positions. If you zoom in, you can click on a profile to see a time series chart and transect characteristics. More information can be found on <a href="https://shorelinemonitor.earth" target="_blank" rel="noopener">https://shorelinemonitor.earth</a>
           </p>
+          <img src="/legend-static.png" alt="Legend: Retreat to Advance" class="map-info__legend" />
         </div>
         <button
           v-else
@@ -118,7 +119,7 @@
 }
 
 .map-info__panel {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255);
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   padding: 12px 12px 14px;
@@ -151,6 +152,14 @@
   margin: 0;
   font-size: 13px;
   line-height: 1.4;
+}
+
+.map-info__legend {
+  width: 90%;
+  height: auto;
+  margin-top: 8px;
+  display: block;
+  margin-inline: auto;
 }
 
 .map-info__toggle {
