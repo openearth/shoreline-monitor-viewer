@@ -5,6 +5,8 @@
       v-model:map="mapInstance"
       :access-token="accessToken"
       :map-style="activeStyleUri"
+      :center="MAP_CENTER"
+      :zoom="MAP_ZOOM"
       @mb-created="onMapCreated"
       @mb-moveend="onMoveEnd"
       @mb-zoomend="onMoveEnd"
@@ -57,7 +59,7 @@
 <script setup>
   import { MapboxGeocoder, MapboxMap, MapboxNavigationControl } from '@studiometa/vue-mapbox-gl'
   import { computed, ref } from 'vue'
-  import { MAP_BASELAYER_DEFAULT, MAP_BASELAYERS } from '@/lib/constants'
+  import { MAP_BASELAYER_DEFAULT, MAP_BASELAYERS, MAP_CENTER, MAP_ZOOM } from '@/lib/constants'
   import { useMapStore } from '@/stores/map'
   import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
@@ -76,7 +78,6 @@
   function onMapCreated (map) {
     mapInstance.value = map
 
-    _boundingBox.value && map.fitBounds(_boundingBox.value, { duration: 0 })
   }
 
   function onFeatureClick (features) {
