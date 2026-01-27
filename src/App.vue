@@ -3,7 +3,8 @@
     <LegalDialog />
 
     <v-app-bar app color="primary">
-      <v-toolbar-title>Shoreline Monitor Application</v-toolbar-title>
+      <img src="/shorelinemonitor_logo.png" alt="Shoreline Monitor Logo" class="app-bar__logo" />
+      <v-toolbar-title>ShorelineMonitor Viewer</v-toolbar-title>
       <v-spacer />
       <v-btn
         href="https://shorelinemonitor.earth/"
@@ -54,6 +55,11 @@
 </script>
 
 <style scoped>
+.app-bar__logo {
+  height: 40px;
+  width: auto;
+  margin-left: 18px;
+}
 
 .app-panel {
   position: fixed;
