@@ -16,7 +16,7 @@
         :layer="layer"
         @click="onFeatureClick"
       />
-      <MapPaintControl />
+
       <MapboxGeocoder />
 
       <FeaturePropertiesDialog
