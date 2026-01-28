@@ -1,7 +1,7 @@
 <template>
-  <v-dialog v-model="dialog" max-width="1650px">
+  <v-dialog v-model="dialog" width="60vw">
     <v-card>
-      <div class="dialog-scroll" style="position: relative; height: 480px; width: 100%;">
+      <div class="dialog-scroll" style="position: relative; height: 460px; width: 100%;">
         <div class="dialog-inner">
           <iframe
             v-if="timeseriesDataUrl"
@@ -72,11 +72,11 @@
 
 <style scoped>
 .dialog-scroll {
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 
 .dialog-inner {
-  width: 1650px;
+  width: 90vw;
 }
 </style>

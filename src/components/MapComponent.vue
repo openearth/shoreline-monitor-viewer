@@ -1,7 +1,6 @@
 <template>
   <div class="map-wrapper">
     <mapbox-map
-      :key="activeStyleUri"
       v-model:map="mapInstance"
       :access-token="accessToken"
       :map-style="activeStyleUri"
@@ -11,8 +10,13 @@
       @mb-moveend="onMoveEnd"
       @mb-zoomend="onMoveEnd"
     >
-      <MapLayer v-for="layer in mapboxLayers" :key="layer.id" :layer="layer" @click="onFeatureClick" />
-      <MapPaintControl />
+      <MapLayer
+        v-for="layer in mapboxLayers"
+        :key="`${layersKey}-${layer.id}`"
+        :layer="layer"
+        @click="onFeatureClick"
+      />
+
       <MapboxGeocoder />
 
       <FeaturePropertiesDialog
@@ -58,7 +62,7 @@
 
 <script setup>
   import { MapboxGeocoder, MapboxMap, MapboxNavigationControl } from '@studiometa/vue-mapbox-gl'
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { MAP_BASELAYER_DEFAULT, MAP_BASELAYERS, MAP_CENTER, MAP_ZOOM } from '@/lib/constants'
   import { useMapStore } from '@/stores/map'
   import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -71,13 +75,13 @@
   const showDialogFeature = ref(null)
   const showDialog = ref(false)
   const infoCollapsed = ref(false)
+  const layersKey = ref(0)
 
   const activeStyleTitle = ref(MAP_BASELAYER_DEFAULT.title)
   const activeStyleUri = computed(() => MAP_BASELAYERS.find(style => style.title === activeStyleTitle.value).uri)
 
   function onMapCreated (map) {
     mapInstance.value = map
-
   }
 
   function onFeatureClick (features) {
@@ -90,6 +94,20 @@
   function onMoveEnd (e) {
     _boundingBox.value = e.target.getBounds()
   }
+
+  watch(activeStyleTitle, (newTitle, oldTitle) => {
+    if (mapInstance.value) {
+      const map = mapInstance.value
+
+      const handleStyleLoad = () => {
+        layersKey.value += 1
+        map.off('style.load', handleStyleLoad)
+      }
+
+      // Re-add layers only after the new style has fully loaded
+      map.on('style.load', handleStyleLoad)
+    }
+  })
 </script>
 
 <style>

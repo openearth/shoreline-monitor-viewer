@@ -31,7 +31,7 @@ Click the 'I agree' button to confirm to the conditions of use as stated above.
               >
                 I agree
               </v-btn>
-           </div>
+            </div>
           </form>
       </v-card-actions>
     </v-card>
