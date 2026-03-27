@@ -5,10 +5,11 @@
         <div class="dialog-inner">
           <iframe
             v-if="timeseriesDataUrl"
+            class="px-5 py-2"
             frameborder="0"
-            height="500px"
+            height="580px"
             :src="timeseriesDataUrl"
-            width="100%"
+            width="95%"
             @load="iframeLoaded = true"
           />
         </div>
