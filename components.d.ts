@@ -10,12 +10,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     BasemapControl: typeof import('./src/components/BasemapControl.vue')['default']
     FeaturePropertiesDialog: typeof import('./src/components/FeaturePropertiesDialog.vue')['default']
+    FeedbackForm: typeof import('./src/components/FeedbackForm.vue')['default']
     LegalDialog: typeof import('./src/components/LegalDialog.vue')['default']
     MapComponent: typeof import('./src/components/MapComponent.vue')['default']
     MapLayer: typeof import('./src/components/MapLayer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Spinner: typeof import('./src/components/Spinner.vue')['default']
-    TimeSeriesChart: typeof import('./src/components/TimeSeriesChart.vue')['default']
   }
 }
