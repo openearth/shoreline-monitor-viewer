@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="60vw">
+  <v-dialog v-model="dialog" width="65vw">
     <v-card>
       <div class="dialog-scroll" style="position: relative; height: 460px; width: 100%;">
         <div class="dialog-inner">
@@ -20,16 +20,33 @@
 
       <v-card-actions>
         <v-spacer />
+        <v-btn color="primary" variant="text" @click="feedbackDialog = true">
+          Submit your feedback
+        </v-btn>
         <v-btn color="primary" variant="text" @click="closeDialog">
           Close
         </v-btn>
       </v-card-actions>
     </v-card>
+
+    <v-dialog v-model="feedbackDialog" width="480">
+      <v-card>
+        <FeedbackForm :feature="props.feature" :profile-id="props.feature?.id ?? null" />
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="primary" variant="text" @click="feedbackDialog = false">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-dialog>
 </template>
 
 <script setup>
   import { computed, ref, watch } from 'vue'
+  import FeedbackForm from '@/components/FeedbackForm.vue'
   import Spinner from '@/components/Spinner.vue'
   import getTimeSeries from '@/lib/get-timeseries-data'
 
@@ -53,6 +70,7 @@
 
   const timeseriesDataUrl = ref(null)
   const iframeLoaded = ref(false)
+  const feedbackDialog = ref(false)
 
   watch(() => props.feature, () => {
     iframeLoaded.value = false
