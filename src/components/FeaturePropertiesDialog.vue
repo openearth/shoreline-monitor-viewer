@@ -1,17 +1,12 @@
 <template>
-  <v-dialog v-model="dialog" width="65vw">
+  <v-dialog v-model="dialog" transition="fade-transition" width="65vw">
     <v-card>
       <div class="dialog-frame">
-        <iframe
-          v-if="timeseriesDataUrl"
-          class="timeseries-iframe"
-          frameborder="0"
-          :src="timeseriesDataUrl"
-          @load="iframeLoaded = true"
+        <TimeseriesFrame
+          v-if="dialog && feature"
+          :key="feature.id"
+          :profile-id="feature.id"
         />
-        <div v-if="!iframeLoaded" class="dialog-spinner">
-          <Spinner />
-        </div>
       </div>
 
       <v-card-actions>
@@ -41,10 +36,9 @@
 </template>
 
 <script setup>
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref } from 'vue'
   import FeedbackForm from '@/components/FeedbackForm.vue'
-  import Spinner from '@/components/Spinner.vue'
-  import getTimeSeries from '@/lib/get-timeseries-data'
+  import TimeseriesFrame from '@/components/TimeseriesFrame.vue'
 
   const props = defineProps({
     modelValue: {
@@ -64,21 +58,7 @@
     set: value => emit('update:modelValue', value),
   })
 
-  const timeseriesDataUrl = ref(null)
-  const iframeLoaded = ref(false)
   const feedbackDialog = ref(false)
-
-  watch(() => props.feature, () => {
-    iframeLoaded.value = false
-    fetchGraph()
-  }, { immediate: true })
-
-  async function fetchGraph () {
-    if (!props.feature) return
-
-    const result = await getTimeSeries(props.feature.id)
-    timeseriesDataUrl.value = result.url
-  }
 
   function closeDialog () {
     dialog.value = false
@@ -90,20 +70,5 @@
   position: relative;
   width: 100%;
   height: 520px;
-}
-
-.timeseries-iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.dialog-spinner {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>
