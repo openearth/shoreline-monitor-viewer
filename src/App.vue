@@ -36,6 +36,7 @@
 <script setup>
 
   import { computed, onMounted } from 'vue'
+  import warmUpWps from '@/lib/warm-up-wps'
   import { useAppStore } from '@/stores/app'
   import { useMapStore } from '@/stores/map'
 
@@ -44,6 +45,7 @@
 
   onMounted(() => {
     mapStore.initializeMapboxLayers()
+    warmUpWps()
   })
 
   const panelIsCollapsed = computed(() => appStore.panelIsCollapsed)
