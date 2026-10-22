@@ -12,7 +12,7 @@
         In your judgement, how reliable are the data points as an indicator of shoreline change at this location?
       </p>
 
-      <v-radio-group v-model="reliability" density="compact" hide-details class="mb-3">
+      <v-radio-group v-model="reliability" class="mb-3" density="compact" hide-details>
         <v-radio
           v-for="option in reliabilityOptions"
           :key="option"
@@ -30,11 +30,11 @@
           v-for="option in questionableDetailOptions"
           :key="option"
           v-model="details"
-          :label="option"
-          :value="option"
+          class="mb-1"
           density="compact"
           hide-details
-          class="mb-1"
+          :label="option"
+          :value="option"
         />
 
         <v-text-field
@@ -42,49 +42,49 @@
           v-model="otherText"
           class="mt-2 mb-1"
           density="compact"
+          hide-details
           label="Please specify"
           maxlength="500"
           variant="outlined"
-          hide-details
         />
       </template>
 
       <v-alert
         v-if="validationError"
-        type="error"
-        density="compact"
-        variant="tonal"
         class="mb-3"
+        density="compact"
+        type="error"
+        variant="tonal"
       >
         {{ validationError }}
       </v-alert>
 
       <v-alert
         v-if="submitError"
-        type="error"
-        density="compact"
-        variant="tonal"
         class="mb-3"
+        density="compact"
+        type="error"
+        variant="tonal"
       >
         {{ submitError }}
       </v-alert>
 
       <v-alert
         v-if="submitSuccess"
-        type="success"
-        density="compact"
-        variant="tonal"
         class="mb-3"
+        density="compact"
+        type="success"
+        variant="tonal"
       >
         Thank you for your feedback.
       </v-alert>
 
       <v-btn
-        type="submit"
-        color="primary"
         block
-        :loading="submitting"
+        color="primary"
         :disabled="submitting"
+        :loading="submitting"
+        type="submit"
       >
         Submit feedback
       </v-btn>
@@ -189,33 +189,19 @@
     }
 
     if (showOtherInput.value && !otherText.value.trim()) {
-      return "Please specify the 'Other' reason."
+      return 'Please specify the \'Other\' reason.'
     }
 
     return ''
   }
 
   function buildPayload () {
-    const propsData = featureProperties.value
-    const coordinates = Array.isArray(props.feature?.geometry?.coordinates)
-      ? props.feature.geometry.coordinates
-      : []
-
     return {
       reliability: reliability.value,
       details: showQuestionableOptions.value ? details.value : [],
       other_text: showOtherInput.value ? otherText.value.trim() : null,
-      transect_id: pickFirst(propsData, ['transect_id', 'transectId']),
+      transect_id: pickFirst(featureProperties.value, ['transect_id', 'transectId']),
       profileid: toNumberOrNull(props.profileId),
-      center_lon: toNumberOrNull(pickFirst(propsData, ['center_lon', 'centerLon']) ?? coordinates[0]),
-      center_lat: toNumberOrNull(pickFirst(propsData, ['center_lat', 'centerLat']) ?? coordinates[1]),
-      country: pickFirst(propsData, ['country']),
-      continent: pickFirst(propsData, ['continent']),
-      shore_type: pickFirst(propsData, ['class_shore_type', 'shore_type', 'shoreType']),
-      change_rate: toNumberOrNull(pickFirst(propsData, ['sds_change_rate', 'change_rate', 'changeRate'])),
-      change_rate_std_err: toNumberOrNull(pickFirst(propsData, ['sds_change_rate_std_err', 'change_rate_std_err', 'changeRateStdErr'])),
-      classification: pickFirst(propsData, ['classification']),
-      r_squared: toNumberOrNull(pickFirst(propsData, ['sds_r_squared', 'r_squared', 'rSquared'])),
     }
   }
 
@@ -255,4 +241,3 @@
     }
   }
 </script>
-
